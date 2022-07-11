@@ -24,6 +24,10 @@ public class Main {
 
     makeTestData(article);
 
+    if ( article.size() > 0) {
+      articlelastNum = article.get(article.size() - 1).num;
+    }
+
     while(true){
       System.out.printf("명령)");
       String cmd = sc.next();

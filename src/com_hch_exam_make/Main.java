@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+
+  static void makeTestData(ArrayList<Article> article){
+
+    article.add(new Article(1, "제목1", "내용1"));
+    article.add(new Article(2, "제목2", "내용2"));
+    article.add(new Article(3, "제목3", "내용3"));
+  }
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
 
@@ -14,11 +21,8 @@ public class Main {
 
     Article lastArticle = null;
     ArrayList<Article> article = new ArrayList<Article>();
-    // 테스트 데이터 3개 등록 시작
-    article.add(new Article(1, "제목1", "내용1"));
-    article.add(new Article(2, "제목2", "내용2"));
-    article.add(new Article(3, "제목3", "내용3"));
-    // 테스트 데이터 3개 등록 끝
+
+    makeTestData(article);
 
     while(true){
       System.out.printf("명령)");

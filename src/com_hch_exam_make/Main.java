@@ -36,7 +36,9 @@ public class Main {
         System.out.println("-----------------");
         System.out.println("번호 / 제목 / 내용");
 
-        for(Article articles : article){
+
+        for(int i = article.size() - 1; i >= 0; i--){
+          Article articles = article.get(i);
           System.out.printf("%d / %s / %s\n", articles.num, articles.title, articles.body);
         }
 

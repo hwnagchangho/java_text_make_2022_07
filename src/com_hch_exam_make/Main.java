@@ -8,9 +8,16 @@ public class Main {
 
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
-    System.out.printf("명령)");
-    String cmd = sc.next();
-    System.out.println("입력된 명령어 : " + cmd);
+
+    while(true){
+      System.out.printf("명령)");
+      String cmd = sc.next();
+
+      if (cmd.equals("exit")){
+        break;
+      }
+      System.out.println("입력된 명령어 : " + cmd);
+    }
     System.out.println("== 프로그램 종료 ==");
   }
 }

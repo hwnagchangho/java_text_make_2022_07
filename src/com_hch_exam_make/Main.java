@@ -11,12 +11,16 @@ public class Main {
 
     int articlelastNum = 0;
 
+
     while(true){
       System.out.printf("명령)");
       String cmd = sc.next();
 
       if (cmd.equals("exit")){
         break;
+      }
+      else if (cmd.equals("/usr/article/detail")){
+        System.out.println(" - 게시물 상세보기 - ");
       }
       else if(cmd.equals("/usr/article/write")){
         System.out.println(" - 게시물 등록 - ");
@@ -27,10 +31,7 @@ public class Main {
 
         int num = ++articlelastNum; // == articleLastNum + 1; articleLastNum++;
 
-        Article articles = new Article();
-        articles.num = num;
-        articles.title = title;
-        articles.body = body;
+        Article articles = new Article(num, title, body);
 
         System.out.println("입력받은 객체 : "+ articles);
         System.out.printf("%d번 게시물이 등록되었습니다.\n", articles.num);
@@ -54,6 +55,13 @@ class Article{
 
   public String toString(){
     return String.format("{num : %d, title : \"%s\", body : \"%s\"}", num, title, body);
+  }
+
+  Article(int num_, String title_, String body_){
+    this.num = num_;
+    this.title = title_;
+    this.body = body;
+
   }
 
 }

@@ -27,12 +27,28 @@ public class Main {
 
         int num = ++articlelastNum; // == articleLastNum + 1; articleLastNum++;
 
-        System.out.printf("%d번 게시물이 등록되었습니다.\n", num);
+        Article articles = new Article();
+        articles.num = num;
+        articles.title = title;
+        articles.body = body;
+
+        System.out.println("입력받은 객체 : "+ articles);
+        System.out.printf("%d번 게시물이 등록되었습니다.\n", articles.num);
       }
       else{
         System.out.println("입력된 명령어 : " + cmd);
       }
     }
     System.out.println("== 프로그램 종료 ==");
+
+    sc.close(); // Scanner 끝날 때 써주어야한다.
   }
+}
+
+class Article{
+  int num;
+
+  String title;
+
+  String body;
 }

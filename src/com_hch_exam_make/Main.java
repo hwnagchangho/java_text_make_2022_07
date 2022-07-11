@@ -11,6 +11,7 @@ public class Main {
 
     int articlelastNum = 0;
 
+    Article lastArticle = null;
 
     while(true){
       System.out.printf("명령)");
@@ -20,7 +21,18 @@ public class Main {
         break;
       }
       else if (cmd.equals("/usr/article/detail")){
+
+        if(lastArticle == null){
+          System.out.println("게시물이 존재하지 않습니다.");
+          continue;
+        }
+
         System.out.println(" - 게시물 상세보기 - ");
+        Article articles = lastArticle;
+        System.out.printf("번호 : %d\n", articles.num);
+        System.out.printf("제목 : \"%s\"\n", articles.title);
+        System.out.printf("내용 : \"%s\"\n", articles.body);
+
       }
       else if(cmd.equals("/usr/article/write")){
         System.out.println(" - 게시물 등록 - ");
@@ -32,7 +44,7 @@ public class Main {
         int num = ++articlelastNum; // == articleLastNum + 1; articleLastNum++;
 
         Article articles = new Article(num, title, body);
-
+        lastArticle = articles;
         System.out.println("입력받은 객체 : "+ articles);
         System.out.printf("%d번 게시물이 등록되었습니다.\n", articles.num);
       }
@@ -60,7 +72,7 @@ class Article{
   Article(int num_, String title_, String body_){
     this.num = num_;
     this.title = title_;
-    this.body = body;
+    this.body = body_;
 
   }
 

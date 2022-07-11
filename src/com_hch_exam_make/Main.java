@@ -75,7 +75,7 @@ public class Main {
         Article articles = new Article(num, title, body);
         lastArticle = articles;
 
-        //article.add(new Article(num, title, body)); => articles변수를 받아서 article에 넣어서 출력
+        article.add(articles);
 
         System.out.println("입력받은 객체 : "+ articles);
         System.out.printf("%d번 게시물이 등록되었습니다.\n", articles.num);

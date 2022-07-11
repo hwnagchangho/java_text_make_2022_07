@@ -1,5 +1,6 @@
 package com_hch_exam_make;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -12,6 +13,12 @@ public class Main {
     int articlelastNum = 0;
 
     Article lastArticle = null;
+    ArrayList<Article> article = new ArrayList<Article>();
+    // 테스트 데이터 3개 등록 시작
+    article.add(new Article(1, "제목1", "내용1"));
+    article.add(new Article(2, "제목2", "내용2"));
+    article.add(new Article(3, "제목3", "내용3"));
+    // 테스트 데이터 3개 등록 끝
 
     while(true){
       System.out.printf("명령)");
@@ -19,6 +26,18 @@ public class Main {
 
       if (cmd.equals("exit")){
         break;
+      }
+      else if (cmd.equals("/usr/article/list")){
+        System.out.println(" - 게시물 리스트 - ");
+        System.out.println("-----------------");
+        System.out.println("번호 / 제목 / 내용");
+
+        for(Article articles : article){
+          System.out.printf("%d / %s / %s\n", articles.num, articles.title, articles.body);
+        }
+
+        System.out.println("-----------------");
+
       }
       else if (cmd.equals("/usr/article/detail")){
 
@@ -45,6 +64,9 @@ public class Main {
 
         Article articles = new Article(num, title, body);
         lastArticle = articles;
+
+        //article.add(new Article(num, title, body)); => articles변수를 받아서 article에 넣어서 출력
+
         System.out.println("입력받은 객체 : "+ articles);
         System.out.printf("%d번 게시물이 등록되었습니다.\n", articles.num);
       }

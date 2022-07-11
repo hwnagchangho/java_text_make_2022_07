@@ -51,4 +51,9 @@ class Article{
   String title;
 
   String body;
+
+  public String toString(){
+    return String.format("{num : %d, title : \"%s\", body : \"%s\"}", num, title, body);
+  }
+
 }

@@ -19,7 +19,6 @@ public class Main {
 
     int articlelastNum = 0;
 
-    Article lastArticle = null;
     ArrayList<Article> article = new ArrayList<Article>();
 
     makeTestData(article);
@@ -51,13 +50,14 @@ public class Main {
       }
       else if (cmd.equals("/usr/article/detail")){
 
-        if(lastArticle == null){
+        if(article.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
           System.out.println("게시물이 존재하지 않습니다.");
           continue;
         }
 
+        Article articles = article.get(article.size() - 1);
+
         System.out.println(" - 게시물 상세보기 - ");
-        Article articles = lastArticle;
         System.out.printf("번호 : %d\n", articles.num);
         System.out.printf("제목 : \"%s\"\n", articles.title);
         System.out.printf("내용 : \"%s\"\n", articles.body);
@@ -73,7 +73,6 @@ public class Main {
         int num = ++articlelastNum; // == articleLastNum + 1; articleLastNum++;
 
         Article articles = new Article(num, title, body);
-        lastArticle = articles;
 
         article.add(articles);
 

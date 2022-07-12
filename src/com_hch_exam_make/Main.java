@@ -1,11 +1,12 @@
 package com_hch_exam_make;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
-  static void makeTestData(ArrayList<Article> article){
+  static void makeTestData(List<Article> article){
 
     article.add(new Article(1, "제목1", "내용1"));
     article.add(new Article(2, "제목2", "내용2"));
@@ -19,7 +20,7 @@ public class Main {
 
     int articlelastNum = 0;
 
-    ArrayList<Article> article = new ArrayList<Article>();
+    List<Article> article = new ArrayList<>();
 
     makeTestData(article);
 

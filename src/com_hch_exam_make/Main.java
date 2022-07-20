@@ -31,6 +31,7 @@ public class Main {
       String cmd = sc.next();
 
       Rq rq= new Rq(cmd);
+      rq.getParams();
 
       if (rq.getUrlPath().equals("exit")){
         break;
@@ -51,12 +52,21 @@ public class Main {
       }
       else if (rq.getUrlPath().equals("/usr/article/detail")){
 
+
+        int num = Integer.parseInt(rq.getParams().get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
+
+
         if(article.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
           System.out.println("게시물이 존재하지 않습니다.");
           continue;
         }
 
-        Article articles = article.get(article.size() - 1);
+        Article articles = article.get(num-1);
+
+        if(num > article.size()){
+          System.out.println("게시물이 존재하지 않습니다.");
+          continue;
+        }
 
         System.out.println(" - 게시물 상세보기 - ");
         System.out.printf("번호 : %d\n", articles.num);

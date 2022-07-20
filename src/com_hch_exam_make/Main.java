@@ -36,7 +36,7 @@ public class Main {
       if (rq.getUrlPath().equals("exit")){
         break;
       }
-      else if (rq.getUrlPath().equals("/usr/article/list")){ //cmd를 rq.getUrlPath()로바꾸면 아무리 복잡한 명령어를 넣어도 ?이전으로 호출
+      else if (rq.getUrlPath().equals("/usr/article/list")){ //cmd를 rq.getUrlPath()로바꾸면 아무리 복잡한 명령어를 넣어도 ? 이전으로 호출
         System.out.println(" - 게시물 리스트 - ");
         System.out.println("-----------------");
         System.out.println("번호 / 제목 / 내용");
@@ -52,8 +52,21 @@ public class Main {
       }
       else if (rq.getUrlPath().equals("/usr/article/detail")){
 
+        if(rq.getParams().containsKey("num") == false){
+          System.out.println("번호를 입력해주세요");
+          continue;
+        }
 
-        int num = Integer.parseInt(rq.getParams().get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
+        int num = 0;
+
+        try{
+          num = Integer.parseInt(rq.getParams().get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
+        }
+        catch(NumberFormatException e){
+          System.out.println("번호를 정수형 형태로 입력해주세요");
+          continue;
+        }
+
 
 
         if(article.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0

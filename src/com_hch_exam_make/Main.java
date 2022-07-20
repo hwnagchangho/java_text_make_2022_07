@@ -31,7 +31,7 @@ public class Main {
       String cmd = sc.next();
 
       Rq rq= new Rq(cmd);
-      rq.getParams();
+      Map<String, String> params = rq.getParams();
 
       if (rq.getUrlPath().equals("exit")){
         break;
@@ -40,19 +40,28 @@ public class Main {
         System.out.println(" - 게시물 리스트 - ");
         System.out.println("-----------------");
         System.out.println("번호 / 제목 / 내용");
-
-
-        for(int i = article.size() - 1; i >= 0; i--){
-          Article articles = article.get(i);
-          System.out.printf("%d / %s / %s\n", articles.num, articles.title, articles.body);
-        }
-
         System.out.println("-----------------");
+
+        boolean orderByIdDesc = true;
+        if(params.get("orderBy") != null && params.get("orderBy").equals("IdAsc")){
+          orderByIdDesc = false;
+        }
+        if(orderByIdDesc){
+          for(int i = article.size() - 1; i >= 0; i--){
+            Article articles = article.get(i);
+            System.out.printf("%d / %s / %s\n", articles.num, articles.title, articles.body);
+          }
+        }
+        else{
+          for(Article articles : article){
+            System.out.printf("%d / %s / %s\n", articles.num, articles.title, articles.body);
+          }
+        }
 
       }
       else if (rq.getUrlPath().equals("/usr/article/detail")){
 
-        if(rq.getParams().containsKey("num") == false){
+        if(params.containsKey("num") == false){
           System.out.println("번호를 입력해주세요");
           continue;
         }
@@ -60,7 +69,7 @@ public class Main {
         int num = 0;
 
         try{
-          num = Integer.parseInt(rq.getParams().get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
+          num = Integer.parseInt(params.get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
         }
         catch(NumberFormatException e){
           System.out.println("번호를 정수형 형태로 입력해주세요");

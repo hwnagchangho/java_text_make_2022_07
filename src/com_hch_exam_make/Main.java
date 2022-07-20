@@ -1,8 +1,6 @@
 package com_hch_exam_make;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -32,10 +30,12 @@ public class Main {
       System.out.printf("명령)");
       String cmd = sc.next();
 
-      if (cmd.equals("exit")){
+      Rq rq= new Rq(cmd);
+
+      if (rq.getUrlPath().equals("exit")){
         break;
       }
-      else if (cmd.equals("/usr/article/list")){
+      else if (rq.getUrlPath().equals("/usr/article/list")){ //cmd를 rq.getUrlPath()로바꾸면 아무리 복잡한 명령어를 넣어도 ?이전으로 호출
         System.out.println(" - 게시물 리스트 - ");
         System.out.println("-----------------");
         System.out.println("번호 / 제목 / 내용");
@@ -49,7 +49,7 @@ public class Main {
         System.out.println("-----------------");
 
       }
-      else if (cmd.equals("/usr/article/detail")){
+      else if (rq.getUrlPath().equals("/usr/article/detail")){
 
         if(article.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
           System.out.println("게시물이 존재하지 않습니다.");
@@ -64,7 +64,7 @@ public class Main {
         System.out.printf("내용 : \"%s\"\n", articles.body);
 
       }
-      else if(cmd.equals("/usr/article/write")){
+      else if(rq.getUrlPath().equals("/usr/article/write")){
         System.out.println(" - 게시물 등록 - ");
         System.out.printf("제목 : ");
         String title = sc.next();
@@ -86,7 +86,7 @@ public class Main {
     }
     System.out.println("== 프로그램 종료 ==");
 
-    sc.close(); // Scanner 끝날 때 써주어야한다.
+    sc.close();
   }
 }
 
@@ -108,4 +108,49 @@ class Article{
 
   }
 
+}
+
+class Rq {
+  String url;
+  // 필드추가가능
+  Map<String, String> params;
+  String path;
+
+
+  Rq(String url) {
+    this.url = url;
+    this.params = Util.getParamsFromUrl(url);
+    this.path = Util.getUrlPathFromUrl(url);
+  }
+
+  public Map<String, String> getParams() {
+    return params;
+  }
+
+  public String getUrlPath() {
+    return path;
+  }
+}
+
+// 수정불가능
+class Util {
+  static Map<String, String> getParamsFromUrl(String url) {
+    Map<String, String> params = new HashMap<>();
+    String[] urlBits = url.split("\\?", 2); // 2개 이상 나뉘는건 원치 않는다.
+    if (urlBits.length == 1) { // 나뉘지 않았다면. `?` 가 없다는 뜻, 즉 더이상 할일이 없다는 뜻
+      return params;
+    }
+    String queryStr = urlBits[1];
+    for (String bit : queryStr.split("&")) {
+      String[] bits = bit.split("=", 2); // 2개 이상 나뉘는건 원치 않는다.
+      if (bits.length == 1) { // 나뉘지 않았다면 `=`가 없다는 뜻, 즉 잘못된 파라미터라는 뜻
+        continue; // for 문 상단으로 돌아간다. 즉 아래 코드가 스킵된다.
+      }
+      params.put(bits[0], bits[1]);
+    }
+    return params;
+  }
+  static String getUrlPathFromUrl(String url) {
+    return url.split("\\?", 2)[0];
+  }
 }

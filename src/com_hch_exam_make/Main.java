@@ -5,10 +5,12 @@ import java.util.*;
 public class Main {
 
   static void makeTestData(List<Article> article){
+    for( int i = 0; i < 100; i++){
+      int id = i + 1;
+      article.add(new Article(id, "제목" + id, "내용" + id));
+    }
 
-    article.add(new Article(1, "제목1", "내용1"));
-    article.add(new Article(2, "제목2", "내용2"));
-    article.add(new Article(3, "제목3", "내용3"));
+
   }
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);

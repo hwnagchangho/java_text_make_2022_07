@@ -39,12 +39,33 @@ public class Main {
         break;
       }
       else if (rq.getUrlPath().equals("/usr/article/list")){ //cmd를 rq.getUrlPath()로바꾸면 아무리 복잡한 명령어를 넣어도 ? 이전으로 호출
+
+        List<Article> filteredArticle = articles;
+
+        String searchKeyword = params.get("searchKeyword");
+
+        if(searchKeyword != null){
+          searchKeyword = params.get("searchKeyword");
+
+          filteredArticle = new ArrayList<>();
+
+          for(Article article : articles){
+            boolean matched = article.title.contains(searchKeyword) || article.body.contains(searchKeyword);
+
+            if(matched) {
+              filteredArticle.add(article);
+            }
+          }
+        }
+
+        System.out.println(filteredArticle);
+
         System.out.println(" - 게시물 리스트 - ");
         System.out.println("-----------------");
         System.out.println("번호 / 제목 / 내용");
         System.out.println("-----------------");
 
-        List<Article> sortedArticle = articles;
+        List<Article> sortedArticle = filteredArticle;
 
         boolean orderByIdDesc = true;
         if(params.get("orderBy") != null && params.get("orderBy").equals("IdAsc")){

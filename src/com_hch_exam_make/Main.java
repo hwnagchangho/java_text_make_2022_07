@@ -4,9 +4,14 @@ import java.util.*;
 
 public class Main {
 
-  static int articleLastNum = 0;
+  static int articleLastNum;
 
-  static List<Article> articles = new ArrayList<>();
+  static List<Article> articles;
+
+  static {
+    articleLastNum = 0;
+    articles = new ArrayList<>();
+  }
 
   static void makeTestData(){
     for( int i = 0; i < 100; i++){

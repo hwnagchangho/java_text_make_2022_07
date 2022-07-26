@@ -4,10 +4,14 @@ import java.util.*;
 
 public class Main {
 
-  static void makeTestData(List<Article> article){
+  static int articleLastNum = 0;
+
+  static List<Article> articles = new ArrayList<>();
+
+  static void makeTestData(){
     for( int i = 0; i < 100; i++){
       int id = i + 1;
-      article.add(new Article(id, "제목" + id, "내용" + id));
+      articles.add(new Article(id, "제목" + id, "내용" + id));
     }
 
 
@@ -18,11 +22,7 @@ public class Main {
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
 
-    int articleLastNum = 0;
-
-    List<Article> articles = new ArrayList<>();
-
-    makeTestData(articles);
+    makeTestData();
 
     if ( articles.size() > 0) {
       articleLastNum = articles.get(articles.size() - 1).num;
@@ -39,19 +39,19 @@ public class Main {
         break;
       }
       else if (rq.getUrlPath().equals("/usr/article/list")){ //cmd를 rq.getUrlPath()로바꾸면 아무리 복잡한 명령어를 넣어도 ? 이전으로 호출
-        actionUsrArticleList(rq, articles, params);
+        actionUsrArticleList(rq, params);
       }
       else if (rq.getUrlPath().equals("/usr/article/detail")){
-        actionUsrArticleDetail(rq, articles, params);
+        actionUsrArticleDetail(rq,params);
       }
       else if(rq.getUrlPath().equals("/usr/article/write")){
-        actionUsrArticleWrite(rq, articles, sc, params, articleLastNum);
+        actionUsrArticleWrite(rq, sc, params);
       }
       else if(rq.getUrlPath().equals("/usr/article/modify")){
-        actionUsrArticleModify(rq, articles, sc, params);
+        actionUsrArticleModify(rq, sc, params);
       }
       else if(rq.getUrlPath().equals("/usr/article/delete")){
-        actionUsrArticleDelete(rq, articles, params);
+        actionUsrArticleDelete(rq, params);
       }
       else{
         System.out.println("입력된 명령어 : " + cmd);
@@ -62,7 +62,7 @@ public class Main {
     sc.close();
   }
 
-  private static void actionUsrArticleDelete(Rq rq, List<Article> articles, Map<String, String> params) {
+  private static void actionUsrArticleDelete(Rq rq, Map<String, String> params) {
     if(!params.containsKey("num")){
       System.out.println("번호를 입력해주세요");
       return;
@@ -99,7 +99,7 @@ public class Main {
 
   }
 
-  private static void actionUsrArticleModify(Rq rq, List<Article> articles, Scanner sc, Map<String, String> params) {
+  private static void actionUsrArticleModify(Rq rq, Scanner sc, Map<String, String> params) {
     if(!params.containsKey("num")){
       System.out.println("번호를 입력해주세요");
       return;
@@ -138,7 +138,7 @@ public class Main {
     System.out.printf("%d번 게시물이 수정되었습니다.\n", num);
   }
 
-  private static void actionUsrArticleWrite(Rq rq, List<Article> articles, Scanner sc, Map<String, String> params, int articleLastNum) {
+  private static void actionUsrArticleWrite(Rq rq, Scanner sc, Map<String, String> params) {
     System.out.println(" - 게시물 등록 - ");
     System.out.print("제목 : ");
     String title = sc.next();
@@ -155,7 +155,7 @@ public class Main {
     System.out.printf("%d번 게시물이 등록되었습니다.\n", article.num);
   }
 
-  private static <params> void actionUsrArticleDetail(Rq rq, List<Article> articles, Map<String, String> params) {
+  private static <params> void actionUsrArticleDetail(Rq rq, Map<String, String> params) {
     if(!params.containsKey("num")){
       System.out.println("번호를 입력해주세요");
       return;
@@ -192,7 +192,7 @@ public class Main {
     System.out.printf("내용 : \"%s\"\n", article.body);
   }
 
-  private static void actionUsrArticleList(Rq rq, List<Article> articles, Map<String, String> params) {
+  private static void actionUsrArticleList(Rq rq, Map<String, String> params) {
     List<Article> filteredArticle = articles;
 
     String searchKeyword = params.get("searchKeyword");

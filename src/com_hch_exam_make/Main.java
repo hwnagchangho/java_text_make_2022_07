@@ -17,7 +17,7 @@ public class Main {
 
   }
   public static void main(String[] args) {
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = Container.sc;
 
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");

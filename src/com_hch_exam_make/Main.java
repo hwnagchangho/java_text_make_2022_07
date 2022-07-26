@@ -50,6 +50,9 @@ public class Main {
       else if(rq.getUrlPath().equals("/usr/article/modify")){
         actionUsrArticleModify(rq, articles, sc, params);
       }
+      else if(rq.getUrlPath().equals("/usr/article/delete")){
+        actionUsrArticleDelete(rq, articles, params);
+      }
       else{
         System.out.println("입력된 명령어 : " + cmd);
       }
@@ -57,6 +60,43 @@ public class Main {
     System.out.println("== 프로그램 종료 ==");
 
     sc.close();
+  }
+
+  private static void actionUsrArticleDelete(Rq rq, List<Article> articles, Map<String, String> params) {
+    if(!params.containsKey("num")){
+      System.out.println("번호를 입력해주세요");
+      return;
+    }
+
+    int num = 0;
+
+    try{
+      num = Integer.parseInt(params.get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
+    }
+    catch(NumberFormatException e){
+      System.out.println("번호를 정수형 형태로 입력해주세요");
+      return; //continue 대신 쓸수 있는 함수는 return 이다. continue가 밑에껄 생략하고 위에올라가는것처럼 return도 똑같다.
+      //continue는 반복문 안에서만 효율을 발휘한다.
+    }
+
+
+
+    if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
+      System.out.println("게시물이 존재하지 않습니다.");
+      return;
+    }
+
+    Article article = articles.get(num-1);
+
+    if(num > articles.size()){
+      System.out.println("게시물이 존재하지 않습니다.");
+      return;
+    }
+
+    articles.remove(article);
+    System.out.println(article.num + "번 게시물이 삭제되었습니다.");
+
+
   }
 
   private static void actionUsrArticleModify(Rq rq, List<Article> articles, Scanner sc, Map<String, String> params) {

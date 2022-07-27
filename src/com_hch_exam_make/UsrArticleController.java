@@ -2,7 +2,6 @@ package com_hch_exam_make;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class UsrArticleController {
@@ -28,37 +27,24 @@ public class UsrArticleController {
     }
   }
   public void actionDelete(Rq rq) {
-    Map<String, String> params = rq.getParams();
+    int num = rq.getIntParam("num", 0);
 
-    if(!params.containsKey("num")){
-      System.out.println("번호를 입력해주세요");
-      return;
+    if(num == 0){
+      System.out.println("번호를 올바르게 입력해주세요");
     }
-
-    int num = 0;
-
-    try{
-      num = Integer.parseInt(params.get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
-    }
-    catch(NumberFormatException e){
-      System.out.println("번호를 정수형 형태로 입력해주세요");
-      return; //continue 대신 쓸수 있는 함수는 return 이다. continue가 밑에껄 생략하고 위에올라가는것처럼 return도 똑같다.
-      //continue는 반복문 안에서만 효율을 발휘한다.
-    }
-
-
 
     if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    Article article = articles.get(num-1);
-
     if(num > articles.size()){
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
+
+    Article article = articles.get(num-1);
+
 
     articles.remove(article);
     System.out.println(article.num + "번 게시물이 삭제되었습니다.");
@@ -68,24 +54,11 @@ public class UsrArticleController {
 
   public void actionModify(Rq rq, Scanner sc) {
 
-    Map<String, String> params = rq.getParams();
+    int num = rq.getIntParam("num", 0);
 
-    if(!params.containsKey("num")){
-      System.out.println("번호를 입력해주세요");
-      return;
+    if(num == 0){
+      System.out.println("번호를 올바르게 입력해주세요");
     }
-
-    int num = 0;
-
-    try{
-      num = Integer.parseInt(params.get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
-    }
-    catch(NumberFormatException e){
-      System.out.println("번호를 정수형 형태로 입력해주세요");
-      return; //continue 대신 쓸수 있는 함수는 return 이다. continue가 밑에껄 생략하고 위에올라가는것처럼 return도 똑같다.
-      //continue는 반복문 안에서만 효율을 발휘한다.
-    }
-
 
 
     if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
@@ -93,12 +66,13 @@ public class UsrArticleController {
       return;
     }
 
-    Article article = articles.get(num-1);
-
     if(num > articles.size()){
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
+
+    Article article = articles.get(num-1);
+
 
     System.out.print("새 제목 : ");
     article.title = sc.next();
@@ -126,31 +100,12 @@ public class UsrArticleController {
   }
 
   public void actionDetail(Rq rq) {
-    Map<String, String> params = rq.getParams();
 
-    if(!params.containsKey("num")){
-      System.out.println("번호를 입력해주세요");
-      return;
+    int num = rq.getIntParam("num", 0);
+
+    if(num == 0){
+      System.out.println("번호를 올바르게 입력해주세요");
     }
-
-    int num = 0;
-
-    try{
-      num = Integer.parseInt(params.get("num")); // num이 들어있나 확인/ 들어있는 String값num을 int값으로 변환
-
-      if(num > articles.size()){
-        System.out.println("게시물이 존재하지 않습니다.");
-        return;
-      }
-      //길이가 벗어나게 하면 오류가 떠서 아래에 try catch로 다시 만들어줬는데 그밑을보니 이미 오류가 났을경우 처리되는 함수가 만들어져있음
-      //그래서 이거를 안으로 넣어줌 따로 trycatch를 만들어줄 필요가 없음
-    }
-    catch(NumberFormatException e){
-      System.out.println("번호를 정수형 형태로 입력해주세요");
-      return; //continue 대신 쓸수 있는 함수는 return 이다. continue가 밑에껄 생략하고 위에올라가는것처럼 return도 똑같다.
-      //continue는 반복문 안에서만 효율을 발휘한다.
-    }
-
 
 
     if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
@@ -158,7 +113,19 @@ public class UsrArticleController {
       return;
     }
 
+    if(num > articles.size()){
+      System.out.println("게시물이 존재하지 않습니다.");
+      return;
+    }
+
     Article article = articles.get(num-1);
+
+    //길이가 벗어나게 하면 오류가 떠서 아래에 try catch로 다시 만들어줬는데 그밑을보니 이미 오류가 났을경우 처리되는 함수가 만들어져있음
+    //그래서 이거를 안으로 넣어줌 따로 trycatch를 만들어줄 필요가 없음
+
+    //원래는 try안에 넣어서 해결햇는데 rq.getIntparam을 다시 만든후에는 길이가 넘어가면 오류가 해결이안된다.
+
+    //해결책은 if문이 입구컷을 해주어야되기 때문에 Article article = articles.get(num-1);보다 위에있어야하는데 아래있어서 안되는것이었다.
 
 //    try{
 //      Article article = articles.get(num-1);
@@ -181,15 +148,13 @@ public class UsrArticleController {
   }
 
   public void actionList(Rq rq) {
-    Map<String, String> params = rq.getParams();
+
+    String searchKeyword = rq.getParam("searchKeyword", "");
 
     List<Article> filteredArticle = articles;
 
-    String searchKeyword = params.get("searchKeyword");
 
-    if(searchKeyword != null){
-      searchKeyword = params.get("searchKeyword");
-
+    if(searchKeyword.length() > 0){
       filteredArticle = new ArrayList<>();
 
       for(Article article : articles){
@@ -210,10 +175,10 @@ public class UsrArticleController {
 
     List<Article> sortedArticle = filteredArticle;
 
-    boolean orderByIdDesc = true;
-    if(params.containsKey("orderBy") && params.get("orderBy").equals("IdAsc")){
-      orderByIdDesc = false;
-    }
+    String orderBy = rq.getParam("orderBy" , "IdDesc");
+
+    boolean orderByIdDesc = orderBy.equals("IdDesc");
+
     if(orderByIdDesc){
       sortedArticle = Util.reverseList(sortedArticle);
     }

@@ -49,4 +49,10 @@ public class Rq {
 
     session.setAttribute(key, value);  //속성설정// key, value를 저장하는 녀석
   }
+
+  public void removeSessionAttr(String key) {
+    Session session = Container.getSession();
+
+    session.removeAttribute(key);
+  }
 }

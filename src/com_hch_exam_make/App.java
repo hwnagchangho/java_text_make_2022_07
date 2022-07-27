@@ -1,12 +1,10 @@
 package com_hch_exam_make;
 
 import java.util.Map;
-import java.util.Scanner;
 
 public class App {
 
   void run(){
-    Scanner sc = Container.sc;
 
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
@@ -14,7 +12,7 @@ public class App {
 
     while(true){
       System.out.print("명령)");
-      String cmd = sc.next();
+      String cmd = Container.sc.next();
 
       Rq rq= new Rq(cmd);
       Map<String, String> params = rq.getParams();
@@ -30,13 +28,16 @@ public class App {
         Container.usrArticleController.actionDetail(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/write")){
-        Container.usrArticleController.actionWrite(rq, sc);
+        Container.usrArticleController.actionWrite(rq, Container.sc);
       }
       else if(rq.getUrlPath().equals("/usr/article/modify")){
-        Container.usrArticleController.actionModify(rq, sc);
+        Container.usrArticleController.actionModify(rq, Container.sc);
       }
       else if(rq.getUrlPath().equals("/usr/article/delete")){
         Container.usrArticleController.actionDelete(rq);
+      }
+      else if(rq.getUrlPath().equals("/usr/member/join")){
+        Container.usrMemberController.actionJoin(rq); //write나 join나 rq는 굳이 필요없지않나?
       }
       else{
         System.out.println("입력된 명령어 : " + cmd);
@@ -44,7 +45,7 @@ public class App {
     }
     System.out.println("== 프로그램 종료 ==");
 
-    sc.close();
+    Container.sc.close();
 
   }
 

@@ -31,6 +31,7 @@ public class UsrArticleController {
 
     if(num == 0){
       System.out.println("번호를 올바르게 입력해주세요");
+      return;
     }
 
     if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
@@ -58,6 +59,7 @@ public class UsrArticleController {
 
     if(num == 0){
       System.out.println("번호를 올바르게 입력해주세요");
+      return;
     }
 
 
@@ -85,9 +87,9 @@ public class UsrArticleController {
   public void actionWrite(Rq rq, Scanner sc) {
     System.out.println(" - 게시물 등록 - ");
     System.out.print("제목 : ");
-    String title = sc.next();
+    String title = Container.sc.next();
     System.out.print("내용 : ");
-    String body = sc.next();
+    String body = Container.sc.next();
 
     int num = ++articleLastNum; // == articleLastNum + 1; articleLastNum++;
 
@@ -105,6 +107,7 @@ public class UsrArticleController {
 
     if(num == 0){
       System.out.println("번호를 올바르게 입력해주세요");
+      return;
     }
 
 

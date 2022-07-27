@@ -43,4 +43,10 @@ public class Rq {
   public String getUrlPath() {
     return path;
   }
+
+  public void setSessionAttr(String key, Object value) { // **질문 : object를 해야지 모든게 다 들어올 수있따는데 뭔 모든거?
+    Session session = Container.getSession(); //session이라는 객체에다가 가져온 녀석들을 저장
+
+    session.setAttribute(key, value);  //속성설정// key, value를 저장하는 녀석
+  }
 }

@@ -6,12 +6,22 @@ public class App {
 
   void run(){
 
+    Session session = Container.getSession();
+
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
 
 
     while(true){
-      System.out.print("명령)");
+      Member loginedMember = (Member) session.getAttribute("loginedMember"); // 현재 로그인이 되었는지 알아오는 녀석
+
+      String promptName = "명령";
+
+      if(loginedMember != null){
+        promptName = loginedMember.loginId;
+      }
+
+      System.out.printf("%s)", promptName);
       String cmd = Container.sc.next();
 
       Rq rq= new Rq(cmd);

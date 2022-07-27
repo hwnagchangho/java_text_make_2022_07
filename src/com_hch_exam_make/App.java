@@ -28,16 +28,19 @@ public class App {
         Container.usrArticleController.actionDetail(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/write")){
-        Container.usrArticleController.actionWrite(rq, Container.sc);
+        Container.usrArticleController.actionWrite(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/modify")){
-        Container.usrArticleController.actionModify(rq, Container.sc);
+        Container.usrArticleController.actionModify(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/delete")){
         Container.usrArticleController.actionDelete(rq);
       }
       else if(rq.getUrlPath().equals("/usr/member/join")){
         Container.usrMemberController.actionJoin(rq); //write나 join나 rq는 굳이 필요없지않나?
+      }
+      else if(rq.getUrlPath().equals("/usr/member/login")){
+        Container.usrMemberController.actionLogin(rq);
       }
       else{
         System.out.println("입력된 명령어 : " + cmd);

@@ -48,4 +48,49 @@ public class UsrMemberController {
     System.out.println(member.loginId + "님 가입을 환영합니다.");
     System.out.printf("%d번 회원이 생성 되었습니다.\n", member.num);
   }
+
+  public void actionLogin(Rq rq) {
+
+    System.out.print("로그인 아이디 : ");
+    String loginId = Container.sc.next().trim();
+
+    if(loginId.length() == 0){
+      System.out.println("아이디를 입력해주세요");
+      return;
+    }
+
+    Member member = getMemberByLoginId(loginId);
+
+    if(member == null){
+      System.out.println("해당 회원이 존재하지 않습니다.");
+      return;
+    }
+
+    System.out.print("로그인 비밀번호 : ");
+    String loginPw = Container.sc.next().trim();
+
+    if(loginPw.length() == 0){
+      System.out.println("비밀번호를 입력해주세요");
+      return;
+    }
+
+    if(member.loginPw.equals(loginPw) == false){
+      System.out.println("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    System.out.printf("%s님 환영합니다.\n", member.loginId);
+
+  }
+
+  private Member getMemberByLoginId(String loginId) {
+
+    for(Member member : members){
+      if(member.loginId.equals(loginId)){
+
+        return member;
+      }
+    }
+    return null;
+  }
 }

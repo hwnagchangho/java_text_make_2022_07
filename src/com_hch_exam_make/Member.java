@@ -8,7 +8,7 @@ public class Member {
   String loginPw;
 
   public String toString(){
-    return String.format("{num : %d, title : \"%s\", body : \"%s\"}", num, loginId, loginPw);
+    return String.format("{num : %d, loginId : \"%s\", loginPw : \"%s\"}", num, loginId, loginPw);
   }
 
   Member(int num, String loginId, String loginPw){

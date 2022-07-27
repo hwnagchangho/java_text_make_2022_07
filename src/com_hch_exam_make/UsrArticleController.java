@@ -2,7 +2,6 @@ package com_hch_exam_make;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class UsrArticleController {
   int articleLastNum;
@@ -53,7 +52,7 @@ public class UsrArticleController {
 
   }
 
-  public void actionModify(Rq rq, Scanner sc) {
+  public void actionModify(Rq rq) {
 
     int num = rq.getIntParam("num", 0);
 
@@ -77,14 +76,14 @@ public class UsrArticleController {
 
 
     System.out.print("새 제목 : ");
-    article.title = sc.next();
+    article.title = Container.sc.next();
     System.out.print("새 내용 : ");
-    article.body = sc.next();
+    article.body = Container.sc.next();
 
     System.out.printf("%d번 게시물이 수정되었습니다.\n", num);
   }
 
-  public void actionWrite(Rq rq, Scanner sc) {
+  public void actionWrite(Rq rq) {
     System.out.println(" - 게시물 등록 - ");
     System.out.print("제목 : ");
     String title = Container.sc.next();

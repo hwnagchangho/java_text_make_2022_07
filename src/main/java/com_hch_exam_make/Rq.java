@@ -1,6 +1,7 @@
 package com_hch_exam_make;
 
 import com_hch_exam_make.container.Container;
+import com_hch_exam_make.dto.Member;
 import com_hch_exam_util.Util;
 
 import java.util.Map;
@@ -9,14 +10,15 @@ public class Rq {
   private String url;
   // 필드추가가능
   private Map<String, String> params;
-  private String path;
+  private String urlPath;
 
+  Rq(){
 
+  }
 
-  public Rq(String url) {
-    this.url = url;
-    this.params = Util.getParamsFromUrl(url);
-    this.path = Util.getUrlPathFromUrl(url);
+  public void setCommand(String url) {
+    urlPath = Util.getUrlPathFromUrl(url);
+    params = Util.getParamsFromUrl(url);
   }
 
   public Map<String, String> getParams() {
@@ -44,7 +46,7 @@ public class Rq {
   }
 
   public String getUrlPath() {
-    return path;
+    return urlPath;
   }
 
   public void setSessionAttr(String key, Object value) { // **질문 : object를 해야지 모든게 다 들어올 수있따는데 뭔 모든거?
@@ -58,5 +60,34 @@ public class Rq {
     Session session = Container.getSession();
 
     session.removeAttribute(key);
+  }
+
+  public Member getLoginedMemeber() {
+    return (Member) getSessionAttr("loginedMember");
+  }
+
+  private Object getSessionAttr(String key) {
+    Session session = Container.getSession();
+
+
+    return session.getAttribute(key);
+  }
+
+  public boolean isLogined() {//이런녀석이 있냐 없냐 물어본다.
+    return hasSessionAttr("loginedMember");
+  }
+
+  private boolean hasSessionAttr(String key) {
+    Session session = Container.getSession();
+
+    return session.hasAttribute(key);
+  }
+
+  public void logout() {
+    removeSessionAttr("loginedMember");
+  }
+
+  public void login(Member member) {
+    setSessionAttr("loginedMember", member);
   }
 }

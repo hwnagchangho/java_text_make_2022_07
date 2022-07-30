@@ -83,7 +83,7 @@ public class UsrMemberController {
       return;
     }
 
-    rq.setSessionAttr("loginedMember", member); //속성을 저장을한다!
+    rq.login(member);
 
     System.out.printf("%s님 환영합니다.\n", member.getLoginId());
 
@@ -101,7 +101,7 @@ public class UsrMemberController {
   }
 
   public void actionLogout(Rq rq) {
-    rq.removeSessionAttr("loginedMember");
+    rq.logout();
 
     System.out.println("로그아웃 되었습니다.");
   }

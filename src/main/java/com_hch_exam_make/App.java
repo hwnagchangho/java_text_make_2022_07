@@ -9,25 +9,26 @@ public class App {
 
   void run(){
 
-    Session session = Container.getSession();
-
     System.out.println("== 게시판 v 0.1 ==");
     System.out.println("== 프로그램 시작 ==");
 
 
     while(true){
-      Member loginedMember = (Member) session.getAttribute("loginedMember"); // 현재 로그인이 되었는지 알아오는 녀석
+      Rq rq = new Rq();
 
       String promptName = "명령";
 
-      if(loginedMember != null){
+      if (rq.isLogined()){
+        Member loginedMember = rq.getLoginedMemeber();
         promptName = loginedMember.getLoginId();
       }
 
       System.out.printf("%s)", promptName);
       String cmd = Container.getSc().next();
 
-      Rq rq= new Rq(cmd);
+      //Rq rq= new Rq(cmd);
+      rq.setCommand(cmd); //rq를 또만들어서는 안되기 때문에 따로 메서드를 만든다.
+
       Map<String, String> params = rq.getParams();
 
 

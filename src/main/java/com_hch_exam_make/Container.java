@@ -11,7 +11,7 @@ public class Container {// container 는 공공재자원으로 사용할 것들�
 
   static UsrMemberController usrMemberController;
 
-  static{ //static은 프로그램이 실행된뒤에 딱한번 실행된다? 그래서 controller생성자는 여기에 객체가 생길때 실행이되나?
+  static{ //static은 프로그램이 실행된뒤에 딱한번 실행된다? 그럼 프로그램이 실행된 후에 바로 생성이 된 상태?
     sc = new Scanner(System.in);
 
     session = new Session();
@@ -26,7 +26,9 @@ public class Container {// container 는 공공재자원으로 사용할 것들�
     return session;
   }
 }
-//이 컨테이너는 App가 실행되기전 먼저 실행이되나?
+//**질문 : 이 컨테이너는 App가 실행되기전 먼저 실행이되나?  static은 프로그램이 실행햇을 때 가장 먼저 딱한번 실행된다 따라서 static안에 있는
+//객체는 미리 만들어져 있다.
 
 
-//**질문 : 세션이 공공재이기 때문에 getSession을 여기다 만들고 반환받는건가?
+//**질문 : 세션이 공공재이기 때문에 getSession을 여기다 만들고 반환받는건가? Session 클래스가 공공재이기 때문에 Container에 만들어 놓은 것이고
+// getSession은 가지고 가는 녀석이다 따라서 이곳에서 session에 저장되있는 녀석들을 반환해준다.

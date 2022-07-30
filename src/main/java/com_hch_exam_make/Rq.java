@@ -45,6 +45,7 @@ public class Rq {
   }
 
   public void setSessionAttr(String key, Object value) { // **질문 : object를 해야지 모든게 다 들어올 수있따는데 뭔 모든거?
+    //value값에는 int stirng boolean등등 뭐가 들어올지 알수없다. 이것이 섞여서 들어올수도 있다. 따라서 Object타입으로 해서 다 받을수있게하기위함이다.
     Session session = Container.getSession(); //session이라는 객체에다가 가져온 녀석들을 저장
 
     session.setAttribute(key, value);  //속성설정// key, value를 저장하는 녀석

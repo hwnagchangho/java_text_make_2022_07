@@ -1,16 +1,19 @@
 package com_hch_exam_make;
 
+import com_hch_exam_make.container.Container;
+import com_hch_exam_util.Util;
+
 import java.util.Map;
 
 public class Rq {
-  String url;
+  private String url;
   // 필드추가가능
-  Map<String, String> params;
-  String path;
+  private Map<String, String> params;
+  private String path;
 
 
 
-  Rq(String url) {
+  public Rq(String url) {
     this.url = url;
     this.params = Util.getParamsFromUrl(url);
     this.path = Util.getUrlPathFromUrl(url);

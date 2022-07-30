@@ -1,25 +1,30 @@
-package com_hch_exam_make;
+package com_hch_exam_make.controller;
+
+import com_hch_exam_make.Rq;
+import com_hch_exam_make.container.Container;
+import com_hch_exam_make.dto.Article;
+import com_hch_exam_util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsrArticleController {
-  int articleLastNum;
+  private int articleLastNum;
 
-  List<Article> articles;
+  private List<Article> articles;
 
-  UsrArticleController(){
+  public UsrArticleController(){
     articleLastNum = 0;
     articles = new ArrayList<>();
 
     makeTestData();
 
     if ( articles.size() > 0) {
-      articleLastNum = articles.get(articles.size() - 1).num;
+      articleLastNum = articles.get(articles.size() - 1).getNum();
     }
   }
 
-  void makeTestData(){
+  public void makeTestData(){
     for( int i = 0; i < 100; i++){
       int id = i + 1;
       articles.add(new Article(id, "제목" + id, "내용" + id));
@@ -47,7 +52,8 @@ public class UsrArticleController {
 
 
     articles.remove(article);
-    System.out.println(article.num + "번 게시물이 삭제되었습니다.");
+
+    System.out.println(article.getNum() + "번 게시물이 삭제되었습니다.");
 
 
   }
@@ -76,28 +82,11 @@ public class UsrArticleController {
 
 
     System.out.print("새 제목 : ");
-    article.title = Container.sc.next();
+    article.setTitle((Container.getSc().next()));
     System.out.print("새 내용 : ");
-    article.body = Container.sc.next();
+    article.setBody((Container.getSc().next()));
 
     System.out.printf("%d번 게시물이 수정되었습니다.\n", num);
-  }
-
-  public void actionWrite(Rq rq) {
-    System.out.println(" - 게시물 등록 - ");
-    System.out.print("제목 : ");
-    String title = Container.sc.next();
-    System.out.print("내용 : ");
-    String body = Container.sc.next();
-
-    int num = ++articleLastNum; // == articleLastNum + 1; articleLastNum++;
-
-    Article article = new Article(num, title, body);
-
-    articles.add(article);
-
-    System.out.println("입력받은 객체 : "+ article);
-    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.num);
   }
 
   public void actionDetail(Rq rq) {
@@ -144,12 +133,17 @@ public class UsrArticleController {
 
 
     System.out.println(" - 게시물 상세보기 - ");
-    System.out.printf("번호 : %d\n", article.num);
-    System.out.printf("제목 : \"%s\"\n", article.title);
-    System.out.printf("내용 : \"%s\"\n", article.body);
+    System.out.printf("번호 : %d\n", article.getNum());
+    System.out.printf("제목 : \"%s\"\n", article.getTitle());
+    System.out.printf("내용 : \"%s\"\n", article.getBody());
   }
 
   public void actionList(Rq rq) {
+
+    System.out.println(" - 게시물 리스트 - ");
+    System.out.println("-----------------");
+    System.out.println("번호 / 제목 / 내용");
+    System.out.println("-----------------");
 
     String searchKeyword = rq.getParam("searchKeyword", "");
 
@@ -160,7 +154,7 @@ public class UsrArticleController {
       filteredArticle = new ArrayList<>();
 
       for(Article article : articles){
-        boolean matched = article.title.contains(searchKeyword) || article.body.contains(searchKeyword);
+        boolean matched = article.getTitle().contains(searchKeyword) || article.getBody().contains(searchKeyword);
 
         if(matched) {
           filteredArticle.add(article);
@@ -169,11 +163,6 @@ public class UsrArticleController {
     }
 
 //    System.out.println(filteredArticle);
-
-    System.out.println(" - 게시물 리스트 - ");
-    System.out.println("-----------------");
-    System.out.println("번호 / 제목 / 내용");
-    System.out.println("-----------------");
 
     List<Article> sortedArticle = filteredArticle;
 
@@ -186,9 +175,26 @@ public class UsrArticleController {
     }
 
     for(Article article : sortedArticle){
-      System.out.printf("%d / %s / %s\n", article.num, article.title, article.body);
+      System.out.printf("%d / %s / %s\n", article.getNum(), article.getTitle(), article.getBody());
     }
 
+  }
+
+  public void actionWrite(Rq rq) {
+    System.out.println(" - 게시물 등록 - ");
+    System.out.print("제목 : ");
+    String title = Container.getSc().next();
+    System.out.print("내용 : ");
+    String body = Container.getSc().next();
+
+    int num = ++articleLastNum; // == articleLastNum + 1; articleLastNum++;
+
+    Article article = new Article(num, title, body);
+
+    articles.add(article);
+
+    System.out.println("입력받은 객체 : "+ article);
+    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.getNum());
   }
 
 }

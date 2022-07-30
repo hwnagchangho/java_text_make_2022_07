@@ -1,25 +1,29 @@
-package com_hch_exam_make;
+package com_hch_exam_make.controller;
+
+import com_hch_exam_make.Rq;
+import com_hch_exam_make.container.Container;
+import com_hch_exam_make.dto.Member;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsrMemberController {
-  int MemberLastNum;
+  private int MemberLastNum;
 
-  List<Member> members;
+  private List<Member> members;
 
-  UsrMemberController(){
+  public UsrMemberController(){
     MemberLastNum = 0;
     members = new ArrayList<>();
 
     makeTestData();
 
     if ( members.size() > 0) {
-      MemberLastNum = members.get(members.size() - 1).num;
+      MemberLastNum = members.get(members.size() - 1).getNum();
     }
   }
 
-  void makeTestData(){
+  public void makeTestData(){
     for( int i = 0; i < 3; i++){
       int id = i + 1;
       members.add(new Member(id, "user" + id, "user" + id));
@@ -28,11 +32,11 @@ public class UsrMemberController {
   public void actionJoin(Rq rq) {
     System.out.println(" - 회원가입 - ");
     System.out.print("로그인 아이디 : ");
-    String loginId = Container.sc.next();
+    String loginId = Container.getSc().next();
     System.out.print("로그인 비밀번호 : ");
-    String loginPw = Container.sc.next();
+    String loginPw = Container.getSc().next();
     System.out.print("로그인 비밀번호 확인 : ");
-    String loginPwConfirm = Container.sc.next();
+    String loginPwConfirm = Container.getSc().next();
 
     if(loginPw.equals(loginPwConfirm) == false){
       System.out.println("비밀번호가 일치하지않습니다.");
@@ -45,14 +49,14 @@ public class UsrMemberController {
 
     members.add(member);
 
-    System.out.println(member.loginId + "님 가입을 환영합니다.");
-    System.out.printf("%d번 회원이 생성 되었습니다.\n", member.num);
+    System.out.println(member.getLoginId() + "님 가입을 환영합니다.");
+    System.out.printf("%d번 회원이 생성 되었습니다.\n", member.getNum());
   }
 
   public void actionLogin(Rq rq) {
 
     System.out.print("로그인 아이디 : ");
-    String loginId = Container.sc.next().trim();
+    String loginId = Container.getSc().next().trim();
 
     if(loginId.length() == 0){
       System.out.println("아이디를 입력해주세요");
@@ -67,28 +71,28 @@ public class UsrMemberController {
     }
 
     System.out.print("로그인 비밀번호 : ");
-    String loginPw = Container.sc.next().trim();
+    String loginPw = Container.getSc().next().trim();
 
     if(loginPw.length() == 0){
       System.out.println("비밀번호를 입력해주세요");
       return;
     }
 
-    if(member.loginPw.equals(loginPw) == false){
+    if(member.getLoginPw().equals(loginPw) == false){
       System.out.println("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     rq.setSessionAttr("loginedMember", member); //속성을 저장을한다!
 
-    System.out.printf("%s님 환영합니다.\n", member.loginId);
+    System.out.printf("%s님 환영합니다.\n", member.getLoginId());
 
   }
 
   private Member getMemberByLoginId(String loginId) {
 
     for(Member member : members){
-      if(member.loginId.equals(loginId)){
+      if(member.getLoginId().equals(loginId)){
 
         return member;
       }

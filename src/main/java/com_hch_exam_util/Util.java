@@ -1,4 +1,4 @@
-package com_hch_exam_make;
+package com_hch_exam_util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Util {
-  static Map<String, String> getParamsFromUrl(String url) {
+  public static Map<String, String> getParamsFromUrl(String url) {
     Map<String, String> params = new HashMap<>();
     String[] urlBits = url.split("\\?", 2); // 2개 이상 나뉘는건 원치 않는다.
     if (urlBits.length == 1) { // 나뉘지 않았다면. `?` 가 없다는 뜻, 즉 더이상 할일이 없다는 뜻
@@ -22,7 +22,7 @@ public class Util {
     }
     return params;
   }
-  static String getUrlPathFromUrl(String url) {
+  public static String getUrlPathFromUrl(String url) {
     return url.split("\\?", 2)[0];
   }
 

@@ -1,15 +1,21 @@
-package com_hch_exam_make;
+package com_hch_exam_make.container;
+
+import com_hch_exam_make.Session;
+import com_hch_exam_make.controller.UsrArticleController;
+import com_hch_exam_make.controller.UsrMemberController;
+import lombok.Getter;
 
 import java.util.Scanner;
 
 public class Container {// container 는 공공재자원으로 사용할 것들을 모아두는것이고 한개만 존재할 수 있따.
-  static Scanner sc;
-
-  static Session session;
-
-  static UsrArticleController usrArticleController;
-
-  static UsrMemberController usrMemberController;
+  @Getter
+  private static Scanner sc; //class안에 변수들은 모두 private처리를 해주어야한다. 이유는 다른곳에서 접근하지못하고 오직 해당클래스에서만 사용하기위해서
+  @Getter
+  private static Session session;
+  @Getter
+  private static UsrArticleController usrArticleController;
+  @Getter
+  private static UsrMemberController usrMemberController;
 
   static{ //static은 프로그램이 실행된뒤에 딱한번 실행된다? 그럼 프로그램이 실행된 후에 바로 생성이 된 상태?
     sc = new Scanner(System.in);

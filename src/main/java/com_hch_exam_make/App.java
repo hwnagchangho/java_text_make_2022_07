@@ -1,5 +1,8 @@
 package com_hch_exam_make;
 
+import com_hch_exam_make.container.Container;
+import com_hch_exam_make.dto.Member;
+
 import java.util.Map;
 
 public class App {
@@ -18,11 +21,11 @@ public class App {
       String promptName = "명령";
 
       if(loginedMember != null){
-        promptName = loginedMember.loginId;
+        promptName = loginedMember.getLoginId();
       }
 
       System.out.printf("%s)", promptName);
-      String cmd = Container.sc.next();
+      String cmd = Container.getSc().next();
 
       Rq rq= new Rq(cmd);
       Map<String, String> params = rq.getParams();
@@ -32,28 +35,28 @@ public class App {
         break;
       }
       else if (rq.getUrlPath().equals("/usr/article/list")){ //cmd를 rq.getUrlPath()로바꾸면 아무리 복잡한 명령어를 넣어도 ? 이전으로 호출
-        Container.usrArticleController.actionList(rq); // container로가서 usrarticlecontroller가실행되면서actionlist로들어간ㄷ?
+        Container.getUsrArticleController().actionList(rq); // container로가서 usrarticlecontroller가실행되면서actionlist로들어간ㄷ?
       }
       else if (rq.getUrlPath().equals("/usr/article/detail")){
-        Container.usrArticleController.actionDetail(rq);
+        Container.getUsrArticleController().actionDetail(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/write")){
-        Container.usrArticleController.actionWrite(rq);
+        Container.getUsrArticleController().actionWrite(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/modify")){
-        Container.usrArticleController.actionModify(rq);
+        Container.getUsrArticleController().actionModify(rq);
       }
       else if(rq.getUrlPath().equals("/usr/article/delete")){
-        Container.usrArticleController.actionDelete(rq);
+        Container.getUsrArticleController().actionDelete(rq);
       }
       else if(rq.getUrlPath().equals("/usr/member/join")){
-        Container.usrMemberController.actionJoin(rq); //write나 join나 rq는 굳이 필요없지않나?
+        Container.getUsrMemberController().actionJoin(rq); //write나 join나 rq는 굳이 필요없지않나?
       }
       else if(rq.getUrlPath().equals("/usr/member/login")){
-        Container.usrMemberController.actionLogin(rq);
+        Container.getUsrMemberController().actionLogin(rq);
       }
       else if(rq.getUrlPath().equals("/usr/member/logout")){
-        Container.usrMemberController.actionLogout(rq);
+        Container.getUsrMemberController().actionLogout(rq);
       }
       else{
         System.out.println("입력된 명령어 : " + cmd);
@@ -61,7 +64,7 @@ public class App {
     }
     System.out.println("== 프로그램 종료 ==");
 
-    Container.sc.close();
+    Container.getSc().close();
 
   }
 

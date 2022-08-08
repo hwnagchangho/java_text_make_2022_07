@@ -62,6 +62,16 @@ public class Rq {
     session.removeAttribute(key);
   }
 
+  public boolean isLogined() {//이런녀석이 있냐 없냐 물어본다.
+    return hasSessionAttr("loginedMember");
+  }
+
+  private boolean hasSessionAttr(String key) {
+    Session session = Container.getSession();
+
+    return session.hasAttribute(key);
+  }
+
   public Member getLoginedMemeber() {
     return (Member) getSessionAttr("loginedMember");
   }
@@ -71,16 +81,6 @@ public class Rq {
 
 
     return session.getAttribute(key);
-  }
-
-  public boolean isLogined() {//이런녀석이 있냐 없냐 물어본다.
-    return hasSessionAttr("loginedMember");
-  }
-
-  private boolean hasSessionAttr(String key) {
-    Session session = Container.getSession();
-
-    return session.hasAttribute(key);
   }
 
   public void logout() {

@@ -3,32 +3,28 @@ package com_hch_exam_make.controller;
 import com_hch_exam_make.Rq;
 import com_hch_exam_make.container.Container;
 import com_hch_exam_make.dto.Article;
+import com_hch_exam_make.service.ArticleService;
 import com_hch_exam_util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsrArticleController {
-  private int articleLastNum;
 
+  private ArticleService articleService;
   private List<Article> articles;
 
   public UsrArticleController(){
-    articleLastNum = 0;
-    articles = new ArrayList<>();
+
+
+    articleService = Container.getArticleService();
+    articles = articleService.getArticles();
 
     makeTestData();
-
-    if ( articles.size() > 0) {
-      articleLastNum = articles.get(articles.size() - 1).getNum();
-    }
   }
 
   public void makeTestData(){
-    for( int i = 0; i < 100; i++){
-      int id = i + 1;
-      articles.add(new Article(id, "제목" + id, "내용" + id));
-    }
+    articleService.makeTestData();
   }
   public void actionDelete(Rq rq) {
     int num = rq.getIntParam("num", 0);
@@ -52,6 +48,7 @@ public class UsrArticleController {
 
 
     articles.remove(article);
+    articleService.deleteArticleByNum(article.getNum());
 
     System.out.println(article.getNum() + "번 게시물이 삭제되었습니다.");
 
@@ -111,26 +108,6 @@ public class UsrArticleController {
 
     Article article = articles.get(num-1);
 
-    //길이가 벗어나게 하면 오류가 떠서 아래에 try catch로 다시 만들어줬는데 그밑을보니 이미 오류가 났을경우 처리되는 함수가 만들어져있음
-    //그래서 이거를 안으로 넣어줌 따로 trycatch를 만들어줄 필요가 없음
-
-    //원래는 try안에 넣어서 해결햇는데 rq.getIntparam을 다시 만든후에는 길이가 넘어가면 오류가 해결이안된다.
-
-    //해결책은 if문이 입구컷을 해주어야되기 때문에 Article article = articles.get(num-1);보다 위에있어야하는데 아래있어서 안되는것이었다.
-
-//    try{
-//      Article article = articles.get(num-1);
-//
-//      System.out.println(" - 게시물 상세보기 - ");
-//      System.out.printf("번호 : %d\n", article.num);
-//      System.out.printf("제목 : \"%s\"\n", article.title);
-//      System.out.printf("내용 : \"%s\"\n", article.body);
-//    }
-//    catch(IndexOutOfBoundsException e){
-//      System.out.println("게시물 범위를 벗어났습니다.");
-//      return;
-//    }
-
 
     System.out.println(" - 게시물 상세보기 - ");
     System.out.printf("번호 : %d\n", article.getNum());
@@ -162,7 +139,6 @@ public class UsrArticleController {
       }
     }
 
-//    System.out.println(filteredArticle);
 
     List<Article> sortedArticle = filteredArticle;
 
@@ -187,14 +163,9 @@ public class UsrArticleController {
     System.out.print("내용 : ");
     String body = Container.getSc().next();
 
-    int num = ++articleLastNum; // == articleLastNum + 1; articleLastNum++;
+    int num = articleService.write(title, body);
 
-    Article article = new Article(num, title, body);
-
-    articles.add(article);
-
-    System.out.println("입력받은 객체 : "+ article);
-    System.out.printf("%d번 게시물이 등록되었습니다.\n", article.getNum());
+    System.out.printf("%d번 게시물이 등록되었습니다.\n", num);
   }
 
 }

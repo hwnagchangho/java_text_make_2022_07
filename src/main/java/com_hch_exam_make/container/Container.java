@@ -3,6 +3,8 @@ package com_hch_exam_make.container;
 import com_hch_exam_make.Session;
 import com_hch_exam_make.controller.UsrArticleController;
 import com_hch_exam_make.controller.UsrMemberController;
+import com_hch_exam_make.repository.ArticleRepository;
+import com_hch_exam_make.service.ArticleService;
 import lombok.Getter;
 
 import java.util.Scanner;
@@ -12,6 +14,12 @@ public class Container {// container 는 공공재자원으로 사용할 것들�
   private static Scanner sc; //class안에 변수들은 모두 private처리를 해주어야한다. 이유는 다른곳에서 접근하지못하고 오직 해당클래스에서만 사용하기위해서
   @Getter
   private static Session session;
+
+  @Getter
+  private  static ArticleService articleService;
+
+  @Getter
+  private  static ArticleRepository articleRepository;
   @Getter
   private static UsrArticleController usrArticleController;
   @Getter
@@ -21,6 +29,10 @@ public class Container {// container 는 공공재자원으로 사용할 것들�
     sc = new Scanner(System.in);
 
     session = new Session();
+
+    articleService = new ArticleService();
+
+    articleRepository = new ArticleRepository();
 
     usrArticleController = new UsrArticleController();
 

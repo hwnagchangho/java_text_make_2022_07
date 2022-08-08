@@ -91,7 +91,8 @@ public class Rq {
     setSessionAttr("loginedMember", member);
   }
 
-  public void getLoginedMemeberId() {
+  public int getLoginedMemeberId() {
+    return getLoginedMemeber().getNum();
 
   }
 }

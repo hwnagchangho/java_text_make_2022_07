@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class Article {
   private int num;
 
+  private int boardId;
+
   private String title;
 
   private String body;

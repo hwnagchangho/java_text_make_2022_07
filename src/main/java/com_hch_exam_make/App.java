@@ -2,7 +2,10 @@ package com_hch_exam_make;
 
 import com_hch_exam_make.container.Container;
 import com_hch_exam_make.dto.Member;
+import com_hch_exam_make.interceptor.Interceptor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class App {
@@ -26,8 +29,12 @@ public class App {
       System.out.printf("%s)", promptName);
       String cmd = Container.getSc().next();
 
-      //Rq rq= new Rq(cmd);
+
       rq.setCommand(cmd); //rq를 또만들어서는 안되기 때문에 따로 메서드를 만든다.
+
+      if(runInterceptor(rq) == false){
+        continue;
+      }
 
       Map<String, String> params = rq.getParams();
 
@@ -67,6 +74,19 @@ public class App {
 
     Container.getSc().close();
 
+  }
+
+  private boolean runInterceptor(Rq rq) {
+    List<Interceptor> interceptors = new ArrayList<>();
+    interceptors.add(Container.getNeedLoginInterceptor());
+    interceptors.add(Container.getNeedLogoutInterceptor());
+
+    for(Interceptor interceptor : interceptors){
+      if(interceptor.run(rq) == false){
+        return false;
+      }
+    }
+    return true;
   }
 
 }

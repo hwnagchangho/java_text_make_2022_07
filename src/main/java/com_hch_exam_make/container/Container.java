@@ -3,6 +3,8 @@ package com_hch_exam_make.container;
 import com_hch_exam_make.Session;
 import com_hch_exam_make.controller.UsrArticleController;
 import com_hch_exam_make.controller.UsrMemberController;
+import com_hch_exam_make.interceptor.NeedLoginInterceptor;
+import com_hch_exam_make.interceptor.NeedLogoutInterceptor;
 import com_hch_exam_make.repository.ArticleRepository;
 import com_hch_exam_make.repository.MemberRepository;
 import com_hch_exam_make.service.ArticleService;
@@ -20,6 +22,11 @@ public class Container {// container 는 공공재자원으로 사용할 것들�
   private static MemberRepository memberRepository;
   @Getter
   private static ArticleRepository articleRepository;
+
+  @Getter
+  private static NeedLoginInterceptor needLoginInterceptor;
+  @Getter
+  private static NeedLogoutInterceptor needLogoutInterceptor;
 
   @Getter
   private static MemberService memberService;
@@ -42,6 +49,9 @@ public class Container {// container 는 공공재자원으로 사용할 것들�
 
     memberService = new MemberService();
     articleService = new ArticleService();
+
+    needLoginInterceptor = new NeedLoginInterceptor();
+    needLogoutInterceptor = new NeedLogoutInterceptor();
 
     usrArticleController = new UsrArticleController();
     usrMemberController = new UsrMemberController();

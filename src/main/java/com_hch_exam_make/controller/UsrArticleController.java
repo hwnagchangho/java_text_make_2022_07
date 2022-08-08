@@ -12,14 +12,9 @@ import java.util.List;
 public class UsrArticleController {
 
   private ArticleService articleService;
-  private List<Article> articles;
 
   public UsrArticleController(){
-
-
     articleService = Container.getArticleService();
-    articles = articleService.getArticles();
-
     makeTestData();
   }
 
@@ -34,20 +29,13 @@ public class UsrArticleController {
       return;
     }
 
-    if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
+    Article article = articleService.getArticleByNum(num);
+
+    if (article == null) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    if(num > articles.size()){
-      System.out.println("게시물이 존재하지 않습니다.");
-      return;
-    }
-
-    Article article = articles.get(num-1);
-
-
-    articles.remove(article);
     articleService.deleteArticleByNum(article.getNum());
 
     System.out.println(article.getNum() + "번 게시물이 삭제되었습니다.");
@@ -64,18 +52,12 @@ public class UsrArticleController {
       return;
     }
 
+    Article article = articleService.getArticleByNum(num);
 
-    if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
+    if (article == null) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
-
-    if(num > articles.size()){
-      System.out.println("게시물이 존재하지 않습니다.");
-      return;
-    }
-
-    Article article = articles.get(num-1);
 
 
     System.out.print("새 제목 : ");
@@ -95,18 +77,12 @@ public class UsrArticleController {
       return;
     }
 
+    Article article = articleService.getArticleByNum(num);
 
-    if(articles.isEmpty()){//article이 비어있냐?? 라고물어보는함수// ==  article.size() == 0
+    if (article == null) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
-
-    if(num > articles.size()){
-      System.out.println("게시물이 존재하지 않습니다.");
-      return;
-    }
-
-    Article article = articles.get(num-1);
 
 
     System.out.println(" - 게시물 상세보기 - ");
@@ -123,6 +99,8 @@ public class UsrArticleController {
     System.out.println("-----------------");
 
     String searchKeyword = rq.getParam("searchKeyword", "");
+
+    List<Article> articles = articleService.getArticles();
 
     List<Article> filteredArticle = articles;
 

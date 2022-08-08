@@ -32,4 +32,7 @@ public class ArticleService {
     articleRepository.deleteArticleByNum(num);
   }
 
+  public Article getArticleByNum(int num) {
+    return articleRepository.getArticleByNum(num);
+  }
 }

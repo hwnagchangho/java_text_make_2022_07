@@ -36,7 +36,7 @@ public class ArticleRepository {
     }
   }
 
-  private Article getArticleByNum(int num) {
+  public Article getArticleByNum(int num) {
     for(Article article : articles){
       if(article.getNum() == num){
         return article;

@@ -3,32 +3,18 @@ package com_hch_exam_make.controller;
 import com_hch_exam_make.Rq;
 import com_hch_exam_make.container.Container;
 import com_hch_exam_make.dto.Member;
-
-import java.util.ArrayList;
-import java.util.List;
+import com_hch_exam_make.service.MemberService;
 
 public class UsrMemberController {
-  private int MemberLastNum;
-
-  private List<Member> members;
+  private MemberService memberService;
 
   public UsrMemberController(){
-    MemberLastNum = 0;
-    members = new ArrayList<>();
+    memberService = Container.getMemberService();
 
-    makeTestData();
+    memberService.makeTestData();
 
-    if ( members.size() > 0) {
-      MemberLastNum = members.get(members.size() - 1).getNum();
-    }
   }
 
-  public void makeTestData(){
-    for( int i = 0; i < 3; i++){
-      int id = i + 1;
-      members.add(new Member(id, "user" + id, "user" + id));
-    }
-  }
   public void actionJoin(Rq rq) {
     System.out.println(" - 회원가입 - ");
     System.out.print("로그인 아이디 : ");
@@ -43,11 +29,9 @@ public class UsrMemberController {
       return;
     }
 
-    int num = ++MemberLastNum;
+    int num = memberService.join(loginId, loginPw);
 
-    Member member = new Member(num, loginId, loginPw);
-
-    members.add(member);
+    Member member = memberService.getMemberByLoginId(loginId);
 
     System.out.println(member.getLoginId() + "님 가입을 환영합니다.");
     System.out.printf("%d번 회원이 생성 되었습니다.\n", member.getNum());
@@ -63,7 +47,7 @@ public class UsrMemberController {
       return;
     }
 
-    Member member = getMemberByLoginId(loginId);
+    Member member = memberService.getMemberByLoginId(loginId);
 
     if(member == null){
       System.out.println("해당 회원이 존재하지 않습니다.");
@@ -89,16 +73,6 @@ public class UsrMemberController {
 
   }
 
-  private Member getMemberByLoginId(String loginId) {
-
-    for(Member member : members){
-      if(member.getLoginId().equals(loginId)){
-
-        return member;
-      }
-    }
-    return null;
-  }
 
   public void actionLogout(Rq rq) {
     rq.logout();

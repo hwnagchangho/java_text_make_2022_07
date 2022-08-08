@@ -90,4 +90,8 @@ public class Rq {
   public void login(Member member) {
     setSessionAttr("loginedMember", member);
   }
+
+  public void getLoginedMemeberId() {
+
+  }
 }

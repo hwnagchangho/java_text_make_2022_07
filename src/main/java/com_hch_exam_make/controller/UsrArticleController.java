@@ -129,7 +129,7 @@ public class UsrArticleController {
     }
 
     for(Article article : sortedArticle){
-      System.out.printf("%d/ %d / %s / %s\n", article.getBoardId(), article.getNum(), article.getTitle(), article.getBody());
+      System.out.printf("%d / %d / %d / %s / %s\n", article.getBoardId(), article.getMemberId(), article.getNum(), article.getTitle(), article.getBody());
     }
 
   }
@@ -141,7 +141,9 @@ public class UsrArticleController {
     System.out.print("내용 : ");
     String body = Container.getSc().next();
 
-    int num = articleService.write(1, title, body);
+    rq.getLoginedMemeberId();
+
+    int num = articleService.write(1, 1, title, body);
 
     System.out.printf("%d번 게시물이 등록되었습니다.\n", num);
   }

@@ -29,12 +29,12 @@ public class UsrMemberController {
       return;
     }
 
-    int num = memberService.join(loginId, loginPw);
+    int id = memberService.join(loginId, loginPw);
 
     Member member = memberService.getMemberByLoginId(loginId);
 
     System.out.println(member.getLoginId() + "님 가입을 환영합니다.");
-    System.out.printf("%d번 회원이 생성 되었습니다.\n", member.getNum());
+    System.out.printf("%d번 회원이 생성 되었습니다.\n", member.getId());
   }
 
   public void actionLogin(Rq rq) {

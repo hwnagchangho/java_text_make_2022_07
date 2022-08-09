@@ -3,7 +3,9 @@ package com_hch_exam_make.controller;
 import com_hch_exam_make.Rq;
 import com_hch_exam_make.container.Container;
 import com_hch_exam_make.dto.Article;
+import com_hch_exam_make.dto.Board;
 import com_hch_exam_make.service.ArticleService;
+import com_hch_exam_make.service.BoardService;
 import com_hch_exam_util.Util;
 
 import java.util.ArrayList;
@@ -13,8 +15,13 @@ public class UsrArticleController {
 
   private ArticleService articleService;
 
+  private BoardService boardService;
+
   public UsrArticleController(){
     articleService = Container.getArticleService();
+
+    boardService = Container.getBoardService();
+
     makeTestData();
   }
 
@@ -22,37 +29,37 @@ public class UsrArticleController {
     articleService.makeTestData();
   }
   public void actionDelete(Rq rq) {
-    int num = rq.getIntParam("num", 0);
+    int id = rq.getIntParam("id", 0);
 
-    if(num == 0){
+    if(id == 0){
       System.out.println("번호를 올바르게 입력해주세요");
       return;
     }
 
-    Article article = articleService.getArticleByNum(num);
+    Article article = articleService.getArticleById(id);
 
     if (article == null) {
       System.out.println("게시물이 존재하지 않습니다.");
       return;
     }
 
-    articleService.deleteArticleByNum(article.getNum());
+    articleService.deleteArticleById(article.getId());
 
-    System.out.println(article.getNum() + "번 게시물이 삭제되었습니다.");
+    System.out.println(article.getId() + "번 게시물이 삭제되었습니다.");
 
 
   }
 
   public void actionModify(Rq rq) {
 
-    int num = rq.getIntParam("num", 0);
+    int id = rq.getIntParam("id", 0);
 
-    if(num == 0){
+    if(id == 0){
       System.out.println("번호를 올바르게 입력해주세요");
       return;
     }
 
-    Article article = articleService.getArticleByNum(num);
+    Article article = articleService.getArticleById(id);
 
     if (article == null) {
       System.out.println("게시물이 존재하지 않습니다.");
@@ -65,19 +72,19 @@ public class UsrArticleController {
     System.out.print("새 내용 : ");
     article.setBody((Container.getSc().next()));
 
-    System.out.printf("%d번 게시물이 수정되었습니다.\n", num);
+    System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
   }
 
   public void actionDetail(Rq rq) {
 
-    int num = rq.getIntParam("num", 0);
+    int id = rq.getIntParam("id", 0);
 
-    if(num == 0){
+    if(id == 0){
       System.out.println("번호를 올바르게 입력해주세요");
       return;
     }
 
-    Article article = articleService.getArticleByNum(num);
+    Article article = articleService.getArticleById(id);
 
     if (article == null) {
       System.out.println("게시물이 존재하지 않습니다.");
@@ -86,7 +93,7 @@ public class UsrArticleController {
 
 
     System.out.println(" - 게시물 상세보기 - ");
-    System.out.printf("번호 : %d\n", article.getNum());
+    System.out.printf("번호 : %d\n", article.getId());
     System.out.printf("제목 : \"%s\"\n", article.getTitle());
     System.out.printf("내용 : \"%s\"\n", article.getBody());
   }
@@ -129,13 +136,29 @@ public class UsrArticleController {
     }
 
     for(Article article : sortedArticle){
-      System.out.printf("%d / %d / %d / %s / %s\n", article.getBoardId(), article.getMemberId(), article.getNum(), article.getTitle(), article.getBody());
+      System.out.printf("%d / %d / %d / %s / %s\n", article.getBoardId(), article.getMemberId(), article.getId(), article.getTitle(), article.getBody());
     }
 
   }
 
   public void actionWrite(Rq rq) {
-    System.out.println(" - 게시물 등록 - ");
+
+    int boardId = rq.getIntParam("boardId", 0);
+
+    if(boardId == 0){
+      System.out.println("BoardId를 입력해주세요");
+      return;
+    }
+
+    Board board = boardService.getBoardById(boardId);
+
+    if (board == null) {
+      System.out.println("존재하지 않는 게시판입니다.");
+      return;
+    }
+
+
+    System.out.printf("== %s 게시물 등록 == ", board.getName());
     System.out.print("제목 : ");
     String title = Container.getSc().next();
     System.out.print("내용 : ");
@@ -143,9 +166,10 @@ public class UsrArticleController {
 
     int loginedMemberId = rq.getLoginedMemeberId();
 
-    int num = articleService.write(1, loginedMemberId, title, body);
 
-    System.out.printf("%d번 게시물이 등록되었습니다.\n", num);
+    int id = articleService.write(1, loginedMemberId, title, body);
+
+    System.out.printf("%d번 게시물이 등록되었습니다.\n", id);
   }
 
 }

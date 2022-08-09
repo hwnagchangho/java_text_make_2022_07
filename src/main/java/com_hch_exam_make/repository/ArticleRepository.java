@@ -6,39 +6,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleRepository {
-  private int lastNum;
+  private int lastId;
   private List<Article> articles;
 
   public ArticleRepository() {
-    lastNum = 0;
+    lastId = 0;
 
     articles = new ArrayList<>();
   }
 
   public int write(int boardId, int memberId, String title, String body) {
-    int num = lastNum + 1;
-    Article article = new Article(num, boardId, memberId, title, body);
+    int id = lastId + 1;
+    Article article = new Article(id, boardId, memberId, title, body);
     articles.add(article);
-    lastNum = num;
+    lastId = id;
 
-    return num;
+    return id;
   }
 
   public List<Article> getArticles() {
     return articles;
   }
 
-  public void deleteArticleByNum(int num) {
-    Article article = getArticleByNum(num);
+  public void deleteArticleById(int id) {
+    Article article = getArticleById(id);
 
     if (article != null) {
       articles.remove(article);
     }
   }
 
-  public Article getArticleByNum(int num) {
+  public Article getArticleById(int id) {
     for(Article article : articles){
-      if(article.getNum() == num){
+      if(article.getId() == id){
         return article;
       }
     }

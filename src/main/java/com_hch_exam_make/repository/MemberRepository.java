@@ -7,20 +7,20 @@ import java.util.List;
 
 public class MemberRepository {
   private List<Member> members;
-  private int lastnum;
+  private int lastId;
 
   public MemberRepository() {
-    lastnum = 0;
+    lastId = 0;
     members = new ArrayList<>();
   }
 
   public int join(String loginId, String loginPw) {
-    int num = lastnum + 1;
-    Member member = new Member(num, loginId, loginPw);
+    int id = lastId + 1;
+    Member member = new Member(id, loginId, loginPw);
     members.add(member);
-    lastnum = num;
+    lastId = id;
 
-    return num;
+    return id;
   }
 
   public Member getMemberByLoginId(String loginId) {
@@ -35,7 +35,7 @@ public class MemberRepository {
 
   public Member getMemberById(int id) {
     for (Member member : members) {
-      if (member.getNum() == id) {
+      if (member.getId() == id) {
         return member;
       }
     }

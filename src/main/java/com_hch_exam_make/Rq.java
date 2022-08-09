@@ -92,7 +92,7 @@ public class Rq {
   }
 
   public int getLoginedMemeberId() {
-    return getLoginedMemeber().getNum();
+    return getLoginedMemeber().getId();
 
   }
 }

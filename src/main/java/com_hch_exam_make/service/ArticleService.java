@@ -1,5 +1,6 @@
 package com_hch_exam_make.service;
 
+import com_hch_exam_make.container.Container;
 import com_hch_exam_make.dto.Article;
 import com_hch_exam_make.repository.ArticleRepository;
 
@@ -9,7 +10,7 @@ public class ArticleService {
   private ArticleRepository articleRepository;
 
   public ArticleService(){
-    articleRepository = new ArticleRepository();
+    articleRepository = Container.getArticleRepository();
   }
 
   public int write(int boardId, int memberId, String title, String body) {
@@ -20,7 +21,7 @@ public class ArticleService {
     for( int i = 0; i < 100; i++){
       String title = "제목" + (i + 1);
       String body = "내용" + (i + 1);
-      write(1, 1, title, body);
+      write(1, 5, title, body);
     }
   }
 
@@ -28,11 +29,11 @@ public class ArticleService {
     return articleRepository.getArticles();
   }
 
-  public void deleteArticleByNum(int num) {
-    articleRepository.deleteArticleByNum(num);
+  public void deleteArticleById(int id) {
+    articleRepository.deleteArticleById(id);
   }
 
-  public Article getArticleByNum(int num) {
-    return articleRepository.getArticleByNum(num);
+  public Article getArticleById(int id) {
+    return articleRepository.getArticleById(id);
   }
 }

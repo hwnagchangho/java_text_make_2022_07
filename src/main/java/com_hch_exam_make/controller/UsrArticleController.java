@@ -102,7 +102,7 @@ public class UsrArticleController {
 
     System.out.println(" - 게시물 리스트 - ");
     System.out.println("-----------------");
-    System.out.println("번호 / 제목 / 내용");
+    System.out.println("BoardId / MemberId/ 번호 / 제목 / 내용 / 현재 날짜");
     System.out.println("-----------------");
 
     String searchKeyword = rq.getParam("searchKeyword", "");
@@ -136,7 +136,7 @@ public class UsrArticleController {
     }
 
     for(Article article : sortedArticle){
-      System.out.printf("%d / %d / %d / %s / %s\n", article.getBoardId(), article.getMemberId(), article.getId(), article.getTitle(), article.getBody());
+      System.out.printf("%d / %d / %d / %s / %s / %s\n", article.getBoardId(), article.getMemberId(), article.getId(), article.getTitle(), article.getBody(), article.getRegDate());
     }
 
   }

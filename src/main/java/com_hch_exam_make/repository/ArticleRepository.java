@@ -1,6 +1,7 @@
 package com_hch_exam_make.repository;
 
 import com_hch_exam_make.dto.Article;
+import com_hch_exam_util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,8 @@ public class ArticleRepository {
 
   public int write(int boardId, int memberId, String title, String body) {
     int id = lastId + 1;
-    Article article = new Article(id, boardId, memberId, title, body);
+    String regDate = Util.getNowDateStr();
+    Article article = new Article(id, regDate, boardId, memberId, title, body);
     articles.add(article);
     lastId = id;
 

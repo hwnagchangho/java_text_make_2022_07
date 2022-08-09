@@ -1,6 +1,7 @@
 package com_hch_exam_make.repository;
 
 import com_hch_exam_make.dto.Member;
+import com_hch_exam_util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,8 @@ public class MemberRepository {
 
   public int join(String loginId, String loginPw) {
     int id = lastId + 1;
-    Member member = new Member(id, loginId, loginPw);
+    String regDate = Util.getNowDateStr();
+    Member member = new Member(id, regDate, loginId, loginPw);
     members.add(member);
     lastId = id;
 

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class Member {
   private int id;
 
+  private String regDate;
+
   private String loginId;
 
   private String loginPw;

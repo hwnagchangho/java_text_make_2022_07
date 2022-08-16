@@ -36,7 +36,7 @@ public class App {
       }
 
       System.out.printf("%s)", promptName);
-      String cmd = Container.getSc().next();
+      String cmd = Container.getSc().nextLine();
 
 
       rq.setCommand(cmd); //rq를 또만들어서는 안되기 때문에 따로 메서드를 만든다.

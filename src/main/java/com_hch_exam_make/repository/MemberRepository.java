@@ -18,7 +18,8 @@ public class MemberRepository {
   public int join(String loginId, String loginPw) {
     int id = lastId + 1;
     String regDate = Util.getNowDateStr();
-    Member member = new Member(id, regDate, loginId, loginPw);
+    String updateDate = regDate;
+    Member member = new Member(id, regDate, updateDate, loginId, loginPw);
     members.add(member);
     lastId = id;
 

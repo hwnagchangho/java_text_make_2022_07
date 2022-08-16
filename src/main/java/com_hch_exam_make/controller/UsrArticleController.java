@@ -68,10 +68,15 @@ public class UsrArticleController {
 
 
     System.out.print("새 제목 : ");
-    article.setTitle((Container.getSc().next()));
+    String title = Container.getSc().nextLine().trim();
     System.out.print("새 내용 : ");
-    article.setBody((Container.getSc().next()));
+    String body = Container.getSc().nextLine().trim();
 
+    article.setUpdateDate(Util.getNowDateStr());
+
+    articleService.modify(article.getId(), title, body);
+
+    System.out.printf("수정된 시간 : %s\n", article.getUpdateDate());
     System.out.printf("%d번 게시물이 수정되었습니다.\n", id);
   }
 
@@ -94,6 +99,8 @@ public class UsrArticleController {
 
     System.out.println(" - 게시물 상세보기 - ");
     System.out.printf("번호 : %d\n", article.getId());
+    System.out.printf("작성날짜 : %s\n", article.getRegDate());
+    System.out.printf("수정날짜 : %s\n", article.getUpdateDate());
     System.out.printf("제목 : \"%s\"\n", article.getTitle());
     System.out.printf("내용 : \"%s\"\n", article.getBody());
   }
@@ -102,7 +109,7 @@ public class UsrArticleController {
 
     System.out.println(" - 게시물 리스트 - ");
     System.out.println("-----------------");
-    System.out.println("BoardId / MemberId/ 번호 / 제목 / 내용 / 현재 날짜");
+    System.out.println("BoardId / MemberId/ / 제목  번호/ 내용 / 현재 날짜");
     System.out.println("-----------------");
 
     String searchKeyword = rq.getParam("searchKeyword", "");

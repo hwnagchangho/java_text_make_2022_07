@@ -26,6 +26,7 @@ public class UsrArticleController {
   }
 
   public void makeTestData(){
+    boardService.makeTestData();
     articleService.makeTestData();
   }
   public void actionDelete(Rq rq) {

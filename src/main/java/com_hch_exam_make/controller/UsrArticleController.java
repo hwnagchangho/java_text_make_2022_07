@@ -6,6 +6,7 @@ import com_hch_exam_make.dto.Article;
 import com_hch_exam_make.dto.Board;
 import com_hch_exam_make.service.ArticleService;
 import com_hch_exam_make.service.BoardService;
+import com_hch_exam_make.service.MemberService;
 import com_hch_exam_util.Util;
 
 import java.util.ArrayList;
@@ -17,10 +18,15 @@ public class UsrArticleController {
 
   private BoardService boardService;
 
+  private MemberService memberService;
+
   public UsrArticleController(){
     articleService = Container.getArticleService();
 
+    memberService = Container.getMemberService();
+
     boardService = Container.getBoardService();
+
 
     makeTestData();
   }
@@ -107,15 +113,16 @@ public class UsrArticleController {
   }
 
   public void actionList(Rq rq) {
+    List<Article> articles = articleService.getArticles();
+
 
     System.out.println(" - 게시물 리스트 - ");
     System.out.println("-----------------");
-    System.out.println("BoardId / MemberId/ / 제목  번호/ 내용 / 현재 날짜");
+    System.out.println("BoardId / MemberId/ 번호 /게시판 / 작성자 / 제목 / 내용 / 현재 날짜");
     System.out.println("-----------------");
 
     String searchKeyword = rq.getParam("searchKeyword", "");
 
-    List<Article> articles = articleService.getArticles();
 
     List<Article> filteredArticle = articles;
 
@@ -131,8 +138,6 @@ public class UsrArticleController {
         }
       }
     }
-
-
     List<Article> sortedArticle = filteredArticle;
 
     String orderBy = rq.getParam("orderBy" , "IdDesc");
@@ -144,9 +149,20 @@ public class UsrArticleController {
     }
 
     for(Article article : sortedArticle){
-      System.out.printf("%d / %d / %d / %s / %s / %s\n", article.getBoardId(), article.getMemberId(), article.getId(), article.getTitle(), article.getBody(), article.getRegDate());
+      String boardName = getBoardNameByBordId(article.getBoardId());
+      String writeName = getWriteNameByBoardId(article.getMemberId());
+
+      System.out.printf("%d / %d / %d / %s / %s / %s / %s / %s\n", article.getBoardId(), article.getMemberId(), article.getId(), boardName, writeName, article.getTitle(), article.getBody(), article.getRegDate());
     }
 
+  }
+
+  private String getWriteNameByBoardId(int memberId) {
+    return memberService.getMemberById(memberId).getLoginId();
+  }
+
+  private String getBoardNameByBordId(int boardId) {
+    return boardService.getBoardById(boardId).getName();
   }
 
   public void actionWrite(Rq rq) {
@@ -166,7 +182,7 @@ public class UsrArticleController {
     }
 
 
-    System.out.printf("== %s 게시물 등록 == ", board.getName());
+    System.out.printf("== %s 게시물 등록 == \n", board.getName());
     System.out.print("제목 : ");
     String title = Container.getSc().next();
     System.out.print("내용 : ");
